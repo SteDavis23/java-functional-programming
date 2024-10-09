@@ -1,0 +1,10 @@
+/**/target/
+/**/out/
+/**/.idea/
+/**/*.iml
+
+#vscode
+.vscode/
+
+# DS_Store files (custom attributes store) on MacOS
+.DS_Store
