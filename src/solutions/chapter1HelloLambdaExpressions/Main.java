@@ -1,18 +1,21 @@
 package src.solutions.chapter1HelloLambdaExpressions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        List<Integer> prices = List.of(10, 30, 17, 20, 18, 45, 12);
-        System.out.println("Total discounted price: " + getTotalWith10PercentDiscount(prices));
-        List<String> names = List.of("Stephen", "Nathan", "Hugo", "Natalie");
-        System.out.println(getNamesBeginningWithN(names));
-        System.out.println(skipFirstFourValues(prices));
-        System.out.println(onlyIterateOverFirstThreeElements(prices));
-        System.out.println(iterateUntilConditionIsMet(prices));
-        System.out.println(skipUntilConditionIsMet(prices));
+//        List<Integer> prices = List.of(10, 30, 17, 20, 18, 45, 12);
+//        System.out.println("Total discounted price: " + getTotalWith10PercentDiscount(prices));
+//        List<String> names = List.of("Stephen", "Nathan", "Hugo", "Natalie");
+//        System.out.println(getNamesBeginningWithN(names));
+//        System.out.println(skipFirstFourValues(prices));
+//        System.out.println(onlyIterateOverFirstThreeElements(prices));
+//        System.out.println(iterateUntilConditionIsMet(prices));
+//        System.out.println(skipUntilConditionIsMet(prices));
+
+        handlePrices();
     }
 
     // Get the prices for all the tickers,
@@ -67,5 +70,40 @@ public class Main {
                 .collect(Collectors.toList());
     }
 
+    public static void handlePrices() {
+        List<Integer> prices = new ArrayList<Integer>();
+        prices.add(5);
+        prices.add(12);
+        prices.add(2);
+        prices.add(9);
 
+        System.out.println("All prices");
+        prices.stream()
+                .forEach(System.out::println);
+
+        List<Integer> cheapPrices = prices.stream()
+                .filter(price -> price < 9)
+                .collect(Collectors.toList());
+
+        System.out.println("Prices < 9");
+        cheapPrices.stream()
+                .forEach(System.out::println);
+
+        List<Integer> fairPrices = prices.stream()
+                .filter(price -> price == 9)
+                .collect(Collectors.toList());
+
+        System.out.println("Prices == 9");
+        fairPrices.stream()
+                .forEach(System.out::println);
+
+        List<Integer> expensivePrices = prices.stream()
+                .filter(price -> price > 9)
+                .collect(Collectors.toList());
+
+        System.out.println("Prices > 9");
+        expensivePrices.stream()
+                .forEach(System.out::println);
+
+    }
 }
