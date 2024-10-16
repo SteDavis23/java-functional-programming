@@ -106,4 +106,43 @@ public class Main {
                 .forEach(System.out::println);
 
     }
+
+    public static void handlePricesEfficiently() {
+        List<Integer> prices = new ArrayList<Integer>();
+        prices.add(2);
+        prices.add(5);
+        prices.add(10);
+        prices.add(11);
+        prices.add(14);
+        prices.add(15);
+
+        System.out.println("All prices");
+        prices.stream()
+                .forEach(System.out::println);
+
+        List<Integer> pricesLessThanNine = prices.stream()
+                .filter(price -> price < 9)
+                .collect(Collectors.toList());
+
+        System.out.println("Prices < 9");
+        pricesLessThanNine.stream()
+                .forEach(System.out::println);
+
+        List<Integer> pricesLessThanTwelve = prices.stream()
+                .filter(price -> price < 12)
+                .collect(Collectors.toList());
+
+        System.out.println("Prices < 12");
+        pricesLessThanTwelve.stream()
+                .forEach(System.out::println);
+
+        List<Integer> pricesLessThan16 = prices.stream()
+                .filter(price -> price < 16)
+                .collect(Collectors.toList());
+
+        System.out.println("Prices < 16");
+        pricesLessThan16.stream()
+                .forEach(System.out::println);
+
+    }
 }
