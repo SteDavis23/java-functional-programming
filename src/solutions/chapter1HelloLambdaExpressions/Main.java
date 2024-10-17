@@ -2,6 +2,8 @@ package src.solutions.chapter1HelloLambdaExpressions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -16,6 +18,7 @@ public class Main {
 //        System.out.println(skipUntilConditionIsMet(prices));
 
         handlePrices();
+        handlePricesEfficiently();
     }
 
     // Get the prices for all the tickers,
@@ -70,44 +73,9 @@ public class Main {
                 .collect(Collectors.toList());
     }
 
+
     public static void handlePrices() {
-        List<Integer> prices = new ArrayList<Integer>();
-        prices.add(5);
-        prices.add(12);
-        prices.add(2);
-        prices.add(9);
-
-        System.out.println("All prices");
-        prices.stream()
-                .forEach(System.out::println);
-
-        List<Integer> cheapPrices = prices.stream()
-                .filter(price -> price < 9)
-                .collect(Collectors.toList());
-
-        System.out.println("Prices < 9");
-        cheapPrices.stream()
-                .forEach(System.out::println);
-
-        List<Integer> fairPrices = prices.stream()
-                .filter(price -> price == 9)
-                .collect(Collectors.toList());
-
-        System.out.println("Prices == 9");
-        fairPrices.stream()
-                .forEach(System.out::println);
-
-        List<Integer> expensivePrices = prices.stream()
-                .filter(price -> price > 9)
-                .collect(Collectors.toList());
-
-        System.out.println("Prices > 9");
-        expensivePrices.stream()
-                .forEach(System.out::println);
-
-    }
-
-    public static void handlePricesEfficiently() {
+        System.out.println("Handling prices inefficiently");
         List<Integer> prices = new ArrayList<Integer>();
         prices.add(2);
         prices.add(5);
@@ -116,9 +84,7 @@ public class Main {
         prices.add(14);
         prices.add(15);
 
-        System.out.println("All prices");
-        prices.stream()
-                .forEach(System.out::println);
+        System.out.println("All prices " + prices);
 
         List<Integer> pricesLessThanNine = prices.stream()
                 .filter(price -> price < 9)
@@ -144,5 +110,44 @@ public class Main {
         pricesLessThan16.stream()
                 .forEach(System.out::println);
 
+    }
+
+    public static void handlePricesEfficiently() {
+        System.out.println("Handling prices efficiently");
+
+        List<Integer> prices = new ArrayList<Integer>();
+        prices.add(2);
+        prices.add(5);
+        prices.add(10);
+        prices.add(11);
+        prices.add(14);
+        prices.add(15);
+
+        System.out.println("Original prices: " + prices);
+
+        List<Integer> pricesLessThanNine = prices.stream()
+                .filter(handlePricesEfficientlyPredicateHelper(9))
+                .collect(Collectors.toList());
+
+        System.out.println("Prices less than 9");
+        pricesLessThanNine.forEach(System.out::println);
+
+        List<Integer> pricesLessThanTwelve = prices.stream()
+                .filter(handlePricesEfficientlyPredicateHelper(12))
+                .collect(Collectors.toList());
+
+        System.out.println("Prices less than 12");
+        pricesLessThanTwelve.forEach(System.out::println);
+
+        List<Integer> pricesLessThanSixteen = prices.stream()
+                .filter(handlePricesEfficientlyPredicateHelper(16))
+                .collect(Collectors.toList());
+
+        System.out.println("Prices less than 16");
+        pricesLessThanSixteen.forEach(System.out::println);
+    }
+
+    public static Predicate<Integer> handlePricesEfficientlyPredicateHelper(Integer priceToBeLessThan) {
+        return price -> price < priceToBeLessThan;
     }
 }
