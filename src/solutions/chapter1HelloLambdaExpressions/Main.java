@@ -17,8 +17,9 @@ public class Main {
 //        System.out.println(iterateUntilConditionIsMet(prices));
 //        System.out.println(skipUntilConditionIsMet(prices));
 
-        handlePrices();
-        handlePricesEfficiently();
+//        handlePrices();
+//        handlePricesEfficiently();
+        handlePricesMostEfficiently();
     }
 
     // Get the prices for all the tickers,
@@ -149,5 +150,35 @@ public class Main {
 
     public static Predicate<Integer> handlePricesEfficientlyPredicateHelper(Integer priceToBeLessThan) {
         return price -> price < priceToBeLessThan;
+    }
+
+    public static List<Integer> handlePricesMostEfficientlyHelper(Integer pricesToBeLessThan) {
+        List<Integer> prices = new ArrayList<Integer>();
+
+        prices.add(2);
+        prices.add(5);
+        prices.add(10);
+        prices.add(11);
+        prices.add(14);
+        prices.add(15);
+
+        return prices.stream()
+                .filter(handlePricesEfficientlyPredicateHelper(pricesToBeLessThan))
+                .collect(Collectors.toList());
+    }
+
+    public static void handlePricesMostEfficiently() {
+        System.out.println("Handling prices most efficiently");
+        List<Integer> pricesLessThanNine = handlePricesMostEfficientlyHelper(9);
+        System.out.println("Prices less than 9");
+        pricesLessThanNine.forEach(System.out::println);
+
+        List<Integer> pricesLessThanTwelve = handlePricesMostEfficientlyHelper(12);
+        System.out.println("Prices less than 12");
+        pricesLessThanTwelve.forEach(System.out::println);
+
+        List<Integer> pricesLessThanSixteen = handlePricesMostEfficientlyHelper(16);
+        System.out.println("Prices less than 16");
+        pricesLessThanSixteen.forEach(System.out::println);
     }
 }
