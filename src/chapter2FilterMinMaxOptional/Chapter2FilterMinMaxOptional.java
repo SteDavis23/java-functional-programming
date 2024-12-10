@@ -1,18 +1,18 @@
-package src.chapter3;
+package src.chapter2FilterMinMaxOptional;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public class Chapter3 {
+public class Chapter2FilterMinMaxOptional {
     List<Grade> grades = List.of(new Grade("Stephen", 80.0), new Grade("John", 32.0), new Grade("Mark", 79.9));
 
     public static void main(String[] args) {
         System.out.println("Hello, World!");
-        Optional<String> firstFailedStudent = new Chapter3().optionalExample();
+        Optional<String> firstFailedStudent = new Chapter2FilterMinMaxOptional().optionalExample();
         System.out.println("Somebody who failed the exam is: " + firstFailedStudent.orElse("Nobody failed the exam!"));
 
-        double totalMarks = new Chapter3().calculateTotalMarks();
+        double totalMarks = new Chapter2FilterMinMaxOptional().calculateTotalMarks();
         System.out.println("Total collective marks achieved by everyone: " + totalMarks);
     }
 
