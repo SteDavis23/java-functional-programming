@@ -41,7 +41,7 @@ public class Chapter3 {
     private double reduceToMaxGradeWithDefault() {
         return grades
                 .stream()
-                .reduce(new Grade("Default", 100.0), (grade1, grade2) -> {
+                .reduce(new Grade("Default", 0.0), (grade1, grade2) -> {
                     return grade1.getScore() > grade2.getScore() ? grade1 : grade2;
                 })
                 .getScore();
