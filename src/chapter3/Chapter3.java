@@ -1,5 +1,6 @@
 package src.chapter3;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,60 @@ public class Chapter3 {
                 .sum();
     }
 
+    private double findMaxGradeComparator() {
+        return grades
+                .stream()
+                .max(Comparator.comparing(Grade::getScore))
+                .map(Grade::getScore)
+                .orElse(0.0);
+    }
+
+    private double reduceToMaxGradeWithDefault() {
+        return grades
+                .stream()
+                .reduce(new Grade("Default", 100.0), (grade1, grade2) -> {
+                    return grade1.getScore() > grade2.getScore() ? grade1 : grade2;
+                })
+                .getScore();
+    }
+
+    private double reduceToMaxGradeNoDefault() {
+        return grades
+                .stream()
+                .reduce((grade1, grade2) -> {
+                    return grade1.getScore() > grade2.getScore() ? grade1 : grade2;
+                })
+                .map(Grade::getScore)
+                .orElse(0.0);
+    }
+
+    private double findMinGradeComparator() {
+        return grades
+                .stream()
+                .min(Comparator.comparing(Grade::getScore))
+                .map(Grade::getScore)
+                .orElse(100.0);
+    }
+
+    private double reduceToMinGradeNoDefault() {
+        return grades
+                .stream()
+                .reduce((grade1, grade2) -> {
+                    return grade1.getScore() < grade2.getScore() ? grade1 : grade2;
+                })
+                .map(Grade::getScore)
+                .orElse(100.0);
+    }
+
+    private double reduceToMinGradeWithDefault() {
+        return grades
+                .stream()
+                .reduce(new Grade("Default", 100.0), (grade1, grade2) -> {
+                    return grade1.getScore() < grade2.getScore() ? grade1 : grade2;
+                })
+                .getScore();
+    }
+
     private class Grade {
         private String name;
         private double score;
@@ -44,6 +99,10 @@ public class Chapter3 {
 
         public double getScore() {
             return score;
+        }
+
+        public String toString() {
+            return "Name: " + name + "\nScore: " + score;
         }
     }
 }
