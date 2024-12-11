@@ -1,5 +1,7 @@
 package src.chapter2FilterMinMaxOptional;
 
+import src.utilities.Grade;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -82,27 +84,5 @@ public class Chapter2FilterMinMaxOptional {
                     return grade1.getScore() < grade2.getScore() ? grade1 : grade2;
                 })
                 .getScore();
-    }
-
-    private class Grade {
-        private String name;
-        private double score;
-
-        public Grade(String name, double score) {
-            this.name = name;
-            this.score = score;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public double getScore() {
-            return score;
-        }
-
-        public String toString() {
-            return "Name: " + name + "\nScore: " + score;
-        }
     }
 }
