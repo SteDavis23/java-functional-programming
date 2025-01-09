@@ -12,7 +12,7 @@ public class TransformingData {
     public static void main(String[] args) {
         double totalNumberOfEmployees = new TransformingData().findAverageNumberOfReportees();
         System.out.println("Average number of employees: " + totalNumberOfEmployees);
-        System.out.println("All employees count: " + new TransformingData().retrieveAllEmployeesIgnoringHierarchy().size());
+        System.out.println("Nested employees' names: " + new TransformingData().retrieveAllEmployeesIgnoringHierarchy());
     }
 
     public double findAverageNumberOfReportees() {
@@ -27,9 +27,10 @@ public class TransformingData {
     private String name;
     private int age;
 
-    public List<Employee> retrieveAllEmployeesIgnoringHierarchy() {
+    public List<String> retrieveAllEmployeesIgnoringHierarchy() {
         return employees.stream()
                 .flatMap(employee -> employee.getReportees().stream())
+                .map(Employee::getName)
                 .collect(Collectors.toList());
     }
 }
