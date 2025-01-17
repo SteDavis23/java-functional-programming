@@ -3,28 +3,58 @@ package src.chapter5DesigningWithLambdaExpressions;
 import src.utilities.Grade;
 
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-// Learning about Predicate<T> and Function<T, R>
-// higher order functions means instead of saving the methods in a class, pass in the method logic
-// to the class calling this method, with this class having a constructor to initialise this function by initialising
-// the Function<T, R> field of the class
-// This allows us to make the function logic passed to the class dynamic, it can perform any logic we like
-// old way is to define a bunch of methods, by passing in lambda expression we use lazy loading
-// by passing in lambda expressions to constructors, we don't need to Autowire in or import classes with these
-// method definitions
 public class DesigningWithLambdaExpressions {
-    List<Grade> grades = List.of(new Grade("Stephen", 80.0), new Grade("John", 32.0), new Grade("Mark", 79.9));
+    static List<Grade> grades = List.of(new Grade("Stephen", 80.0), new Grade("John", 32.0), new Grade("Mark", 79.9));
+
+    Function<Double, Double> sumGradesGreaterThanPassRate = (passRate) -> {
+        return grades.stream()
+                .filter(grade -> grade.getScore() > passRate)
+                .mapToDouble(Grade::getScore)
+                .sum();
+    };
+
+    Function<Double, Boolean> isSumGreaterThanHardcodedNationalAverage = (sum) -> {
+        return sum > 70.0;
+    };
+
+    BiFunction<Double, Double, Boolean> isSumGreaterThanNationalAverageDynamic = (sum, nationalAverage) -> {
+        return sum > nationalAverage;
+    };
+
+    public DesigningWithLambdaExpressions() {
+
+    }
 
     public static void main(String[] args) {
-        System.out.println("Demo of repetitive code");
-        System.out.println(new DesigningWithLambdaExpressions().filterGradesByScoreGreaterThan50());
-        System.out.println(new DesigningWithLambdaExpressions().filterGradesForStephen());
+        DesigningWithLambdaExpressions designingWithLambdaExpressions = new DesigningWithLambdaExpressions();
+        System.out.println("Calling functional interface\nTotal scores: " + designingWithLambdaExpressions.sumGradesGreaterThanPassRate.apply(50.0));
+        System.out.println("Calling nested functional interface\nIs greater than national average: "
+                        + new DesigningWithLambdaExpressions().isSumGreaterThanNationalAverageDynamic.apply(designingWithLambdaExpressions
+                                .sumGradesGreaterThanPassRate.apply(50.0),
+                        70.0
+                )
+        );
 
-        System.out.println("Demo of passing lambda expressions with reduced code");
-        System.out.println(new DesigningWithLambdaExpressions().filterGradesByCondition(grade -> grade.getScore() > 50.0));
-        System.out.println(new DesigningWithLambdaExpressions().filterGradesByCondition(grade -> grade.getName().equals("Stephen")));
+        System.out.println("Calling functional interface\nTotal scores: " + new DesigningWithLambdaExpressions().sumGradesGreaterThanPassRate.apply(50.0));
+        System.out.println("Calling nested functional interface\nIs greater than national average: "
+                + designingWithLambdaExpressions.isSumGreaterThanNationalAverageDynamic.apply(designingWithLambdaExpressions
+                        .sumGradesGreaterThanPassRate.apply(50.0),
+                    70.0
+                )
+        );
+
+        Function<Double, Boolean> chainedFunctionToGetSumAndThenCheckVsNationalAverage = designingWithLambdaExpressions.sumGradesGreaterThanPassRate.andThen(designingWithLambdaExpressions.isSumGreaterThanHardcodedNationalAverage);
+        System.out.println("Calling chained functions using andThen\n" + chainedFunctionToGetSumAndThenCheckVsNationalAverage.apply(50.0));
+
+
+        System.out.println("Calling chained functions without temporary variable using andThen\n" +
+                designingWithLambdaExpressions.isSumGreaterThanHardcodedNationalAverage.apply(designingWithLambdaExpressions.sumGradesGreaterThanPassRate.apply(50.0))
+        );
     }
 
     public List<Grade> filterGradesByScoreGreaterThan50() {
@@ -44,14 +74,4 @@ public class DesigningWithLambdaExpressions {
                 .filter(filterLogic)
                 .collect(Collectors.toList());
     }
-
-    // todo: examples using Function(T,R) as a parameter to constructors
-    // this extracts logic from method to class level
-
-    // todo: example of stream filtering where price > 10, a different stream for price > 4
-    // a different stream for name == "Stephen"
-    // how can you cover all cases with 1 method - hint, take in a parameter
-
-
-
 }
