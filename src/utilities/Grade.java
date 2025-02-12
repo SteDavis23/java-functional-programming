@@ -1,5 +1,7 @@
 package src.utilities;
 
+import java.util.List;
+
 public class Grade {
     private String name;
     private double score;
@@ -19,5 +21,10 @@ public class Grade {
 
     public String toString() {
         return "Name: " + name + "\nScore: " + score;
+    }
+
+    public static List<Grade> generateSomeGrades() {
+        return List.of(new Grade("John", 90.0),
+        new Grade("Stephen", 47.2));
     }
 }
