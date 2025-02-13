@@ -19,8 +19,9 @@ public class ErrorHandling {
                 .mapToDouble(studentName -> {
                         try {
                             return retrieveStudentGrade(studentName);
-                        } catch (Exception exception) {
+                        } catch (CustomRuntimeException customRuntimeException) {
                             System.out.printf("Exception caught trying to find student's grade for student %s%n", studentName);
+                            System.out.println("Exception: " + customRuntimeException.exception);
                             return 0.0;
                         }
                 })
@@ -35,7 +36,18 @@ public class ErrorHandling {
         if (studentGradesMap.containsKey(studentName)) {
             return studentGradesMap.get(studentName);
         } else {
-            throw new RuntimeException(String.format("Student %s not found", studentName));
+            throw new CustomRuntimeException(String.format("Student %s not found", studentName), new Exception("Student not found"));
         }
     }
+
+    public static class CustomRuntimeException extends RuntimeException {
+        String errorMessage;
+        Exception exception;
+
+        public CustomRuntimeException(String errorMessage, Exception exception) {
+            this.errorMessage = errorMessage;
+            this.exception = exception;
+        }
+    }
+
 }
